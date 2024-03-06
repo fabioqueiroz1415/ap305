@@ -17,9 +17,6 @@ function ir_login() {
   //var texto = "https://fabioqueiroz1415.github.io/ap305/app/html/";
   texto += "home";
   window.location.href = texto;
-
-  localStorage.setItem("email_305", "");
-  localStorage.setItem("senha_305", "");
 }
 
 function autentica_usuario() {
