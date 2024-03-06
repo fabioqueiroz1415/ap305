@@ -15,7 +15,7 @@
 function ir_login() {
   var texto = "D:\\Usuarios\\fabio\\Área de Trabalho\\github\\fabioqueiroz1415\\pessoal\\ap305\\app\\html\\";
   //var texto = "https://fabioqueiroz1415.github.io/ap305/app/html/";
-  texto += "home";
+  texto += "login.html";
   window.location.href = texto;
 }
 
@@ -26,11 +26,12 @@ function autentica_usuario() {
     document.getElementById("botaoLogin").innerHTML = "Carregando...";
     
     firebase.auth().signInWithEmailAndPassword(email, senha).then((userCredential) => {
-        console.log("logado");
         document.getElementById("botaoLogin").innerHTML = "Login";
         
         localStorage.setItem("email_305", email);
         localStorage.setItem("senha_305", senha);
+
+        ir_home();
 
       }).catch((error) => {
         alert("usuário ou senha inválidos.");

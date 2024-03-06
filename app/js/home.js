@@ -1,12 +1,24 @@
 function ir_home() {
-    inicializa_home();
     var texto = "D:\\Usuarios\\fabio\\Área de Trabalho\\github\\fabioqueiroz1415\\pessoal\\ap305\\app\\html\\";
     //var texto = "https://fabioqueiroz1415.github.io/ap305/app/html/";
-    texto += "home";
+    texto += "home.html";
     window.location.href = texto;
+
+    inicializa_home();
 }
 
 function inicializa_home() {
-    var email = localStorage.getItem("email_305");
-    var senha = localStorage.getItem("senha_305");
+    const email = localStorage.getItem("email_305");
+
+    const bd = firebase.firestore();
+
+    const docs = [];
+    
+    //recuperando todos os documentos
+    bd.collection("fabioaureliodedeus@gmail.com").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data());
+        docs.push(doc.data());
+      });
+    });
 }
