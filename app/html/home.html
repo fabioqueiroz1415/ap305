@@ -11,14 +11,16 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
 
+    <script src="../js/login.js"></script>
     <script src="../js/home.js"></script>
 </head>
-<body>
+<body onload="inicializa_home();">
     <div class="top-right">
         <button class="exit">Sair</button>
     </div>
     <table class="product" style="text-align: center;" id="produtos">
         <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td>Saldo: R$20.00</td>
