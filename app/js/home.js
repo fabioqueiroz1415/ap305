@@ -1,7 +1,6 @@
 function ir_home() {
-    var texto = "D:\\Usuarios\\fabio\\Área de Trabalho\\github\\fabioqueiroz1415\\pessoal\\ap305\\app\\html\\";
-    texto = "https://fabioqueiroz1415.github.io/ap305/app/html/";
-    texto += "home.html";
+    var texto = "D:\\Usuarios\\fabio\\Área de Trabalho\\github\\fabioqueiroz1415\\pessoal\\ap305\\app\\index.html";
+    texto = "https://fabioqueiroz1415.github.io/ap305/app";
     window.location.href = texto;
 }
 
