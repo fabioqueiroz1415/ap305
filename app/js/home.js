@@ -6,6 +6,8 @@ function ir_home() {
 
 var datas = [];
 var saldo_geral = [];
+var usuario = "TODOS";
+var tipo_selecionado = "tudo";
 
 function inicializa_home() {
     const email = localStorage.getItem("email_305");
@@ -17,6 +19,12 @@ function inicializa_home() {
 
     // Adiciona um evento de mudança ao elemento de seleção
     document.getElementById("selecao-tipo").addEventListener("change", function() {
+        tipo_selecionado = this.value;
+        refaz_linhas();
+    });
+
+    document.getElementById("selecao-usuario").addEventListener("change", function() {
+        usuario = this.value;
         refaz_linhas();
     });
 
@@ -32,22 +40,24 @@ function carrega_dados(email, senha, bd) {
                 let email_temp = doc.data().email;
                 let nome = doc.data().nome;
                 if(email === email_temp) nome = "EU";
-                nome = nome.toUpperCase();
-
                 let promise = bd.collection(email_temp).get().then((querySnapshot) => {
                     var saldo = 0;
+                    var dados = [];
                     querySnapshot.forEach((doc) => {
                         const dado = doc.data();
                         saldo += parseFloat(dado.valor);
-                        if(email === email_temp) datas.push(dado);
+                        dados.push(dado);
                     });
-                    saldo_geral.push({nome: nome, saldo: saldo});
-                    if(email === email_temp) refaz_linhas();
+                    datas.push({nome: nome.toUpperCase(), dados: dados});
+                    saldo_geral.push({nome: nome.toUpperCase(), saldo: saldo});
                 });
                 promises.push(promise);  // Adiciona a promessa ao array
             });
             // Espera todas as promessas serem resolvidas antes de chamar carrega_saldo_geral()
-            Promise.all(promises).then(() => carrega_saldo_geral());
+            Promise.all(promises).then(() => {
+                carrega_saldo_geral();
+                refaz_linhas();
+            });
         });
     })
     .catch((error) => {
@@ -63,16 +73,18 @@ function refaz_linhas() {
     for(let i = table.rows.length - 2; i > 0; i--) {
         table.deleteRow(i);
     }
-
-    datas.forEach((data) => {
-        adiciona_linha_tabela(data);
+    
+    datas.forEach((data_usuario) => {
+        if(usuario === "TODOS" || usuario === data_usuario.nome) {
+            var data = data_usuario.dados;
+            data.forEach((dado) => {
+                adiciona_linha_tabela(dado);
+            })
+        }
     });
 }
 
 function adiciona_linha_tabela(data) {
-    // Obtém o tipo selecionado
-    let tipo_selecionado = document.getElementById("selecao-tipo").value;
-
     // Só adiciona a linha se o tipo de dados corresponder ao tipo selecionado
     if(tipo_selecionado === "tudo" || data.tipo === tipo_selecionado) {
         let table = document.getElementById("produtos");
@@ -97,7 +109,7 @@ function adiciona_saldo_geral(nome, saldo) {
     let option = document.createElement("option");
 
     option.innerHTML = "R$" + (saldo == 0.0 ? "0" : "") + saldo.toFixed(2) + ": " + nome;
-    
+    option.setAttribute("value", nome);
     select.appendChild(option);
 }
 
