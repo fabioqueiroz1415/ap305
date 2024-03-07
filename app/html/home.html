@@ -10,51 +10,35 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
     <script src="../js/login.js"></script>
     <script src="../js/home.js"></script>
 </head>
 <body onload="inicializa_home();">
     <div class="top-right">
-        <button class="exit">Sair</button>
+        <button class="exit" onclick="ir_login()">Sair</button>
     </div>
     <table class="product" style="text-align: center;" id="produtos">
         <tr>
             <td></td>
             <td></td>
             <td></td>
-            <td>Saldo: R$20.00</td>
+            <td>Saldo: R$<b id="saldo">00.00</b></td>
         </tr>
         <tr>
             <th>
                 Tipo: 
-                <select class="selection">
+                <select class="selection" id="selecao-tipo">
                     <option value="tudo">Tudo</option>
-                    <option value="compras">Compras</option>
-                    <option value="pagamentos">Pagamentos</option>
+                    <option value="compra">Compras</option>
+                    <option value="pix">Pix</option>
+                    <option value="recebimento">Recebimentos</option>
                 </select>
             </th>
             <th>Descrição</th>
             <th>Valor</th>
             <th>Data</th>
-        </tr>
-        <tr>
-            <td>Compra</td>
-            <td>Descrição 1</td>
-            <td>R$100</td>
-            <td>06-03-24</td>
-        </tr>
-        <tr>
-            <td>Pagamento</td>
-            <td>Descrição 2</td>
-            <td>R$150</td>
-            <td>06-03-24</td>
-        </tr>
-        <tr>
-            <td>Pagamento</td>
-            <td>Descrição 3</td>
-            <td>R$106</td>
-            <td>06-03-24</td>
         </tr>
         <tr>
             <td></td>

@@ -12,7 +12,7 @@ firebase.initializeApp(firebase_config);
 
 function ir_login() {
   var texto = "D:\\Usuarios\\fabio\\Área de Trabalho\\github\\fabioqueiroz1415\\pessoal\\ap305\\app\\html\\";
-  texto = "https://fabioqueiroz1415.github.io/ap305/app/html/";
+  //texto = "https://fabioqueiroz1415.github.io/ap305/app/html/";
   texto += "login.html";
   window.location.href = texto;
 }
@@ -23,12 +23,8 @@ function autentica_usuario() {
 
     document.getElementById("botaoLogin").innerHTML = "Carregando...";
 
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
-    .then(function() {
-      return firebase.auth().signInWithEmailAndPassword(email, senha);
-    })
+    firebase.auth().signInWithEmailAndPassword(email, senha)
     .then((userCredential) => {
-      document.getElementById("botaoLogin").innerHTML = "Login";
       localStorage.setItem("email_305", email);
       localStorage.setItem("senha_305", senha);
       ir_home();
