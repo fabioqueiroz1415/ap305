@@ -8,6 +8,7 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
+    font-size: 16px; /* Adicionado para definir um tamanho de fonte base */
 }
 
 p {
@@ -19,51 +20,52 @@ p {
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 15%;
+    width: 50%; /* Aumentado para melhor visualização em dispositivos móveis */
 }
 
 .top-left {
-    padding: 0.3vw;
+    padding: 1em; /* Alterado para em para melhor escala em diferentes tamanhos de tela */
 }
 
 .top {
     width: 100%;
-    height: 26vw;
+    height: auto; /* Alterado para auto para melhor escala em diferentes tamanhos de tela */
 }
 
 .product {
     width: 90%;
-    padding: 1.387vw;
+    padding: 1em; /* Alterado para em para melhor escala em diferentes tamanhos de tela */
     background-color: white;
     margin: 0 auto;
-    margin-top: 0.8vw;
-    border-radius: 0.693vw;
-    box-shadow: 0vw 0vw 0.867vw 0vw #000;
+    margin-top: 0.5em; /* Diminuído para melhor visualização em dispositivos móveis */
+    border-radius: 0.5em; /* Diminuído para melhor visualização em dispositivos móveis */
+    box-shadow: 0 0 0.5em 0 #000;
     text-align: center;
 }
 .selection, .exit, .add {
-    padding: 0.520vw 0.866vw;
-    border: 0.087vw solid #ccc;
+    padding: 0.5em 1em; /* Aumentado para melhor toque em dispositivos móveis */
+    border: 0.01em solid #ccc;
     box-sizing: border-box;
+    font-size: 1em; /* Adicionado para definir um tamanho de fonte adequado */
 }
 .exit, .add {
-    margin: 0.693vw 0;
+    margin: 0.5em 0;
     display: inline-block;
     background-color: #4CAF50;
     color: white;
     border: none;
     cursor: pointer;
-    width: 13vw;
-    height: 6vw;
-    font-size: 4vw;
+    width: auto; /* Alterado para auto para melhor escala em diferentes tamanhos de tela */
+    height: auto; /* Alterado para auto para melhor escala em diferentes tamanhos de tela */
+    font-size: 1.5em; /* Aumentado para melhor visualização em dispositivos móveis */
 }
 
 .add {
     padding: 0;
-    width: 7vw;
-    height: 7vw;
+    width: 2em; /* Aumentado para melhor toque em dispositivos móveis */
+    height: 2em; /* Aumentado para melhor toque em dispositivos móveis */
     border-radius: 100%;
-    font-size: 6vw;
+    font-size: 2em; /* Aumentado para melhor visualização em dispositivos móveis */
 }
 
 .exit:hover, .add:hover {
@@ -75,7 +77,8 @@ p {
 }
 
 .span-saldo {
-    width: 30vw;
+    width: 70%; /* Aumentado para melhor visualização em dispositivos móveis */
     display: inline-block;
     text-align: right;
 }
+
