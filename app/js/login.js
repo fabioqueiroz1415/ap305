@@ -2,6 +2,7 @@ function ir_login() {
   var texto = "D:\\Usuarios\\fabio\\Área de Trabalho\\github\\fabioqueiroz1415\\pessoal\\ap305\\app\\html\\";
   texto = "https://fabioqueiroz1415.github.io/ap305/app/html/";
   texto += "login.html";
+  texto = "https://fabioqueiroz1415.github.io/ap305/app";
   window.location.href = texto;
 }
 
