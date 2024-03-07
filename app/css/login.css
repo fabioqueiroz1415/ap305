@@ -43,19 +43,6 @@
     .login-container button:hover {
         opacity: 0.8;
     }
-    
-    /* Consultas de mídia para dispositivos móveis */
-    @media screen and (max-width: 600px) {
-        .login-container {
-            margin-top: 20px;
-            padding: 10px;
-        }
-        .login-container input[type="text"],
-        .login-container input[type="password"],
-        .login-container button {
-            padding: 10px 15px;
-        }
-    }    
 }
 
 /* Estilos para desktops */
