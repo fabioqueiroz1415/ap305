@@ -28,31 +28,26 @@ function carrega_dados(email, senha, bd) {
     firebase.auth().signInWithEmailAndPassword(email, senha)
     .then((userCredential) => {
         bd.collection("usuarios").get().then((querySnapshot) => {
+            let promises = [];  // Armazena todas as promessas
             querySnapshot.forEach((doc) => {
                 let email_temp = doc.data().email;
                 let nome = doc.data().nome;
-                
-                bd.collection(email_temp).get().then((querySnapshot) => {
+                if(email === email_temp) nome = "EU";
 
-                    if(email === email_temp){
-                        var saldo = 0;
-                        querySnapshot.forEach((doc) => {
-                            const dado = doc.data();
-                            datas.push(dado);
-                            saldo += parseFloat(dado.valor);
-                        });
-                        edita_meu_saldo(saldo);
-                        refaz_linhas();
-                    } else {
-                        var saldo = 0;
-                        querySnapshot.forEach((doc) => {
-                            const dado = doc.data();
-                            saldo += parseFloat(dado.valor);
-                        });
-                        adiciona_saldo_geral(nome, saldo);
-                    }
-                    })
+                let promise = bd.collection(email_temp).get().then((querySnapshot) => {
+                    var saldo = 0;
+                    querySnapshot.forEach((doc) => {
+                        const dado = doc.data();
+                        saldo += parseFloat(dado.valor);
+                        if(email === email_temp) datas.push(dado);
+                    });
+                    saldo_geral.push({nome: nome, saldo: saldo});
+                    if(email === email_temp) refaz_linhas();
+                });
+                promises.push(promise);  // Adiciona a promessa ao array
             });
+            // Espera todas as promessas serem resolvidas antes de chamar carrega_saldo_geral()
+            Promise.all(promises).then(() => carrega_saldo_geral());
         });
     })
     .catch((error) => {
@@ -61,10 +56,11 @@ function carrega_dados(email, senha, bd) {
     });
 }
 
+
 function refaz_linhas() {
     // Limpa a tabela antes de adicionar novas linhas
     let table = document.getElementById("produtos");
-    for(let i = table.rows.length - 2; i > 1; i--) {
+    for(let i = table.rows.length - 2; i > 0; i--) {
         table.deleteRow(i);
     }
 
@@ -97,10 +93,29 @@ function adiciona_linha_tabela(data) {
 function adiciona_saldo_geral(nome, saldo) {
     var div = document.getElementById("saldo-geral");
     let p = document.createElement("p");
-    p.innerHTML = nome + ": R$" + saldo.toFixed(2);
+
+    // Cria um novo elemento span para o nome
+    let span = document.createElement("span");
+    span.innerHTML = nome;
+    span.classList.add("span-saldo");
+    
+    // Adiciona o nome e o saldo ao parágrafo
+    p.appendChild(span);
+    p.innerHTML += ": R$" + saldo.toFixed(2);
+    if(!saldo) p.classList.add("saldo-vermelho");
+    
     div.appendChild(p);
 }
 
-function edita_meu_saldo(saldo) {
-    document.getElementById("saldo").innerHTML = saldo.toFixed(2);
+function carrega_saldo_geral() {
+    var menor_saldo = null;
+    saldo_geral.forEach((um_saldo) => {
+        if(menor_saldo == null || menor_saldo > um_saldo.saldo)
+            menor_saldo = um_saldo.saldo;
+    });
+
+    saldo_geral.forEach((um_saldo) => {
+        um_saldo.saldo -= menor_saldo;
+        adiciona_saldo_geral(um_saldo.nome, um_saldo.saldo);
+    });
 }

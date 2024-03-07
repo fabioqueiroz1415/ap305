@@ -23,7 +23,6 @@ p {
 }
 
 .top-left {
-    align-self: self-start;
     padding: 0.3vw;
 }
 
@@ -33,7 +32,7 @@ p {
 }
 
 .product {
-    width: 100%;
+    width: 90%;
     padding: 1.387vw;
     background-color: white;
     margin: 0 auto;
@@ -54,9 +53,9 @@ p {
     color: white;
     border: none;
     cursor: pointer;
-    width: 10vw;
-    height: 4vw;
-    font-size: 2vw;
+    width: 13vw;
+    height: 6vw;
+    font-size: 4vw;
 }
 
 .add {
@@ -69,4 +68,14 @@ p {
 
 .exit:hover, .add:hover {
     opacity: 0.8;
+}
+
+.saldo-vermelho {
+    color:red;
+}
+
+.span-saldo {
+    width: 15vw;
+    display: inline-block;
+    text-align: right;
 }

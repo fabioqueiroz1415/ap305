@@ -27,6 +27,7 @@ function autentica_usuario() {
     .then((userCredential) => {
       localStorage.setItem("email_305", email);
       localStorage.setItem("senha_305", senha);
+      document.getElementById("botaoLogin").innerHTML = "Login";
       ir_home();
     })
     .catch((error) => {
