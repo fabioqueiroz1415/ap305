@@ -16,19 +16,25 @@
     <script src="../js/home.js"></script>
 </head>
 <body onload="inicializa_home();">
-    <div class="top-right">
-        <button class="exit" onclick="ir_login()">Sair</button>
+    <div style="width: 100%;">
+        <div class="top-right">
+            <button class="exit" onclick="ir_login()">Sair</button>
+        </div>
+
+        <div class="top-left" id="saldo-geral">
+            <p>Saldo Geral:</p>
+        </div>
     </div>
-    <table class="product" style="text-align: center;" id="produtos">
+    <table class="product" id="produtos">
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
             <td>Saldo: R$<b id="saldo">00.00</b></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
-            <th>
-                Tipo: 
+            <th style="width: 20%;">
+                Mostrar: 
                 <select class="selection" id="selecao-tipo">
                     <option value="tudo">Tudo</option>
                     <option value="compra">Compras</option>

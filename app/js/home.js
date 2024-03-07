@@ -4,10 +4,15 @@ function ir_home() {
     texto += "home.html";
     window.location.href = texto;
 }
+
 var datas = [];
+
 function inicializa_home() {
     const email = localStorage.getItem("email_305");
     const senha = localStorage.getItem("senha_305");
+
+    if(!email || !senha) ir_login();
+
     const bd = firebase.firestore();
 
     // Adiciona um evento de mudança ao elemento de seleção
@@ -30,6 +35,8 @@ function refaz_linhas(email, senha, bd) {
             adiciona_linha_tabela(data);
         });
     } else {
+        carrega_saldo_geral(bd);
+
         firebase.auth().signInWithEmailAndPassword(email, senha)
         .then((userCredential) => {
             bd.collection(email).get().then((querySnapshot) => {
@@ -74,4 +81,24 @@ function adiciona_linha_tabela(data) {
 function adiciona_saldo(valor) {
     var atual = parseFloat(document.getElementById("saldo").innerHTML);
     document.getElementById("saldo").innerHTML = (atual + valor).toFixed(2);
+}
+
+function carrega_saldo_geral(bd) {
+    bd.collection("usuarios").get().then((querySnapshot) => {
+        var div = document.getElementById("saldo-geral");
+        const size = querySnapshot.docs.length;
+        for(let i = 0; i < size; i ++) {
+            const nome = querySnapshot.docs[i].data().nome;
+            const email = querySnapshot.docs[i].data().email;
+            let saldo = 0;
+            bd.collection(email).get().then((snapshot) => {
+                snapshot.docs.forEach((doc) => {
+                    saldo += parseFloat(doc.data().valor);
+                });
+                let p = document.createElement("p");
+                p.innerHTML = nome + ": R$" + saldo.toFixed(2);
+                div.appendChild(p);
+            });
+        }
+    });
 }

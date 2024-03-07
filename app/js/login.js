@@ -1,3 +1,10 @@
+function ir_login() {
+  var texto = "D:\\Usuarios\\fabio\\Área de Trabalho\\github\\fabioqueiroz1415\\pessoal\\ap305\\app\\html\\";
+  texto = "https://fabioqueiroz1415.github.io/ap305/app/html/";
+  texto += "login.html";
+  window.location.href = texto;
+}
+
 const firebase_config = {
   apiKey: "AIzaSyCmq1-Brp_XpddrfRoPDiQoVf1s9YguIPI",
   authDomain: "ap305-53903.firebaseapp.com",
@@ -9,13 +16,6 @@ const firebase_config = {
 };
 
 firebase.initializeApp(firebase_config);
-
-function ir_login() {
-  var texto = "D:\\Usuarios\\fabio\\Área de Trabalho\\github\\fabioqueiroz1415\\pessoal\\ap305\\app\\html\\";
-  texto = "https://fabioqueiroz1415.github.io/ap305/app/html/";
-  texto += "login.html";
-  window.location.href = texto;
-}
 
 function autentica_usuario() {
     var email = document.querySelector('input[name="uname"]').value;
