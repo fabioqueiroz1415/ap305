@@ -6,6 +6,7 @@ function ir_home() {
 }
 
 var datas = [];
+var saldo_geral = [];
 
 function inicializa_home() {
     const email = localStorage.getItem("email_305");
@@ -17,44 +18,59 @@ function inicializa_home() {
 
     // Adiciona um evento de mudança ao elemento de seleção
     document.getElementById("selecao-tipo").addEventListener("change", function() {
-        refaz_linhas(email, senha, bd);
+        refaz_linhas();
     });
 
-    refaz_linhas(email, senha, bd);
+    carrega_dados(email, senha, bd);
 }
 
-function refaz_linhas(email, senha, bd) {
+function carrega_dados(email, senha, bd) {
+    firebase.auth().signInWithEmailAndPassword(email, senha)
+    .then((userCredential) => {
+        bd.collection("usuarios").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                let email_temp = doc.data().email;
+                let nome = doc.data().nome;
+                
+                bd.collection(email_temp).get().then((querySnapshot) => {
+
+                    if(email === email_temp){
+                        var saldo = 0;
+                        querySnapshot.forEach((doc) => {
+                            const dado = doc.data();
+                            datas.push(dado);
+                            saldo += parseFloat(dado.valor);
+                        });
+                        edita_meu_saldo(saldo);
+                        refaz_linhas();
+                    } else {
+                        var saldo = 0;
+                        querySnapshot.forEach((doc) => {
+                            const dado = doc.data();
+                            saldo += parseFloat(dado.valor);
+                        });
+                        adiciona_saldo_geral(nome, saldo);
+                    }
+                    })
+            });
+        });
+    })
+    .catch((error) => {
+      alert("ocorreu um erro.");
+      ir_login;
+    });
+}
+
+function refaz_linhas() {
     // Limpa a tabela antes de adicionar novas linhas
     let table = document.getElementById("produtos");
     for(let i = table.rows.length - 2; i > 1; i--) {
         table.deleteRow(i);
     }
 
-    if(datas.length > 0) {
-        datas.forEach((data) => {
-            adiciona_linha_tabela(data);
-        });
-    } else {
-        carrega_saldo_geral(bd);
-
-        firebase.auth().signInWithEmailAndPassword(email, senha)
-        .then((userCredential) => {
-            bd.collection(email).get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    let data = doc.data();
-                    datas.push(data);
-                    adiciona_linha_tabela(data);
-
-                    let valor = data.valor;
-                    adiciona_saldo(valor);
-                });
-            });
-        })
-        .catch((error) => {
-          alert("ocorreu um erro.");
-          ir_login;
-        });
-    }
+    datas.forEach((data) => {
+        adiciona_linha_tabela(data);
+    });
 }
 
 function adiciona_linha_tabela(data) {
@@ -78,27 +94,13 @@ function adiciona_linha_tabela(data) {
     }
 }
 
-function adiciona_saldo(valor) {
-    var atual = parseFloat(document.getElementById("saldo").innerHTML);
-    document.getElementById("saldo").innerHTML = (atual + valor).toFixed(2);
+function adiciona_saldo_geral(nome, saldo) {
+    var div = document.getElementById("saldo-geral");
+    let p = document.createElement("p");
+    p.innerHTML = nome + ": R$" + saldo.toFixed(2);
+    div.appendChild(p);
 }
 
-function carrega_saldo_geral(bd) {
-    bd.collection("usuarios").get().then((querySnapshot) => {
-        var div = document.getElementById("saldo-geral");
-        const size = querySnapshot.docs.length;
-        for(let i = 0; i < size; i ++) {
-            const nome = querySnapshot.docs[i].data().nome;
-            const email = querySnapshot.docs[i].data().email;
-            let saldo = 0;
-            bd.collection(email).get().then((snapshot) => {
-                snapshot.docs.forEach((doc) => {
-                    saldo += parseFloat(doc.data().valor);
-                });
-                let p = document.createElement("p");
-                p.innerHTML = nome + ": R$" + saldo.toFixed(2);
-                div.appendChild(p);
-            });
-        }
-    });
+function edita_meu_saldo(saldo) {
+    document.getElementById("saldo").innerHTML = saldo.toFixed(2);
 }
