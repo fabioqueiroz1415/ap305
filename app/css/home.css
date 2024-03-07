@@ -48,10 +48,11 @@ body {
 }
 
 .add {
+    padding: 0;
     width: 7vw;
     height: 7vw;
     border-radius: 100%;
-    font-size: 4vw;
+    font-size: 6vw;
 }
 
 .exit:hover, .add:hover {
